@@ -37,7 +37,7 @@ function initParam(array, parameter){
 // Function that adds parameters to an existing custom array from the original array
 function addParam(cusArray, orgArray, parameter){
 	var newArray = cusArray.map(function(element, index, array){
-		var newObj = element;
+		var newObj= Object.assign({}, cusArray[index]);
 		newObj[parameter] = orgArray[index][parameter];
 		return newObj;
 		// newArray[index][parameter] = orgArray[index][parameter];
@@ -45,23 +45,32 @@ function addParam(cusArray, orgArray, parameter){
 	return newArray;
 }
 
-//Filter function that determines with elements of a certain parameter match a certain value
+//Filter function that determines which elements of a certain parameter match a certain value
 
-function filteredArray(array, parameter, value){
-	var newArray = array.filter(function(element) {return(element[parameter] === value)});
-	return newArray;
-}
+// function filterArrayValue(array, parameter, value){
+// 	var newArray = array.filter(function(element) {return(element[parameter] === value)});
+// 	return newArray;
+// }
 
-//Function that 
+//Function that filters Arrays which contain a parameter that matches a value when the values of the parameter are also an array
 
-function filteredNestedArray(array, parameter, value){
+function filterArrayValue(array, parameter, value){
 	var newArray = array.filter(function(element){
-		for (var i=0; i<element[parameter].length; i++){
-			if (element[parameter][i] === value){
-				return true;
-			}
+		if (!Array.isArray(element[parameter])){
+			return (element[parameter]===value);
+		} else {
+			var bool = false;
+			element[parameter].forEach(function(paramElement){
+				if (paramElement === value){bool=true}
+			})
+			// for (var i=0; i<element[parameter].length; i++){
+			// 	if (element[parameter][i] === value){
+			// 		return true;
+			// 	}
+			// }
+		// return false;
 		}
-		return false;
+		return bool;
 	})
 	return newArray;
 }
@@ -70,42 +79,32 @@ function filteredNestedArray(array, parameter, value){
 
 
 
-// // Problem 1
-// priceSum = items.reduce(sumPrice, 0);
-// priceAvg = priceSum/items.length;
-// console.log("Avg Price is " + priceAvg);
 
-// // Problem 2
-// rangeItems = items.filter(priceRange);
-// rangeItemsTitles = paramArray(rangeItems, "title")
-// console.log("Items in with prices between 14 and 18 are ");
-// console.log(rangeItemsTitles);
 
-// // Problem 3
-// var curObject = filteredArray(items, "currency_code", "GBP");
-// console.log("Items with currency code 'GBP' are ")
-// console.log(curObject);
+// Problem 1
+priceSum = items.reduce(sumPrice, 0);
+priceAvg = priceSum/items.length;
+console.log("Avg Price is " + priceAvg);
 
-// // Problem 4
-// var matArray = filteredNestedArray(items, "materials", "wood");
+// Problem 2
+rangeItems = items.filter(priceRange);
+rangeItemsTitles = paramArray(rangeItems, "title")
+console.log("Items in with prices between 14 and 18 are ");
+console.log(rangeItemsTitles);
 
-// console.log("The wood array is ");
-// console.log(paramArray(matArray, "title"));
+// Problem 3
+
+console.log("Items with currency code 'GBP' are ")
+var curObject = filterArrayValue(items, "currency_code", "GBP");
+console.log(curObject);
+
+// Problem 4
+var matArray = filterArrayValue(items, "materials", "wood");
+
+console.log("The wood array is ");
+console.log(paramArray(matArray, "title"));
 
 // Problem 5
 
-var titles = initParam(items, "title");
-console.log("Titles array ");
-console.log(titles);
-
-var titlesPrices = titles.slice();
-var titlesPrices = addParam(titlesPrices, items, "price");
-console.log("Titles/Prices array ");
-console.log(titlesPrices);
-
-var titlesPricesMats = titlesPrices.slice();
-var titlesPricesMats = addParam(titlesPricesMats, items, "materials");
-console.log("Titles/Prices/Mats array ");
-console.log(titlesPricesMats);
 
 
