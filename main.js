@@ -140,7 +140,6 @@ priceAvg = Math.round(priceSum/items.length*100)/100;
 
 // Problem 2
 rangeItems = items.filter(priceRange);
-rangeTitles = paramArray(rangeItems, "title");
 
 // Problem 3
 var curArray = filterArrayValue(items, "currency_code", "GBP");
@@ -169,11 +168,8 @@ writeHTML(null, null, sameMade.length + " were made by their sellers", null, P6)
 
 
 
-
-
-
 // ADDITIONAL FUNCTIONS for debugging
-// ---------------------
+// ------------------------------------------
 
 // Function that prints out a list of parameters to the console
 function printOut(array, parameter){
