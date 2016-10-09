@@ -1,8 +1,14 @@
-// Function that prints out all of a single parameter to the console
+// Function that prints out a list of parameters to the console
 
 function printOut(array, parameter){
 	array.forEach(function(element){
-		console.log(element[parameter]);
+		if (!Array.isArray(parameter)){
+			console.log(element[parameter])
+		} else {
+			parameter.forEach(function(parElement){
+				console.log(element[parElement]);
+			})
+		}
 	});
 }
 
@@ -20,16 +26,15 @@ function priceRange(array){
 function paramArray(array, parameter){
 	newArray=[];
 	array.forEach(function(element){
-		newArray.push(element[parameter]);
-	});
-	return newArray;
-}
-
-// Function that initializes a custom array and populates it with a parameter from another other array
-function initParam(array, parameter){
-	var newArray=[];
-	array.forEach(function(element){
-		newArray.push({[parameter]: element[parameter]})
+		var temp = Object.create(null);
+		if (!Array.isArray(parameter)){
+			temp[parameter] = element[parameter]
+		} else {
+			parameter.forEach(function(parElement){
+				temp[parElement] = element[parElement];
+			})
+		}
+		newArray.push(temp);
 	});
 	return newArray;
 }
@@ -45,13 +50,6 @@ function addParam(cusArray, orgArray, parameter){
 	return newArray;
 }
 
-//Filter function that determines which elements of a certain parameter match a certain value
-
-// function filterArrayValue(array, parameter, value){
-// 	var newArray = array.filter(function(element) {return(element[parameter] === value)});
-// 	return newArray;
-// }
-
 //Function that filters Arrays which contain a parameter that matches a value when the values of the parameter are also an array
 
 function filterArrayValue(array, parameter, value){
@@ -63,18 +61,18 @@ function filterArrayValue(array, parameter, value){
 			element[parameter].forEach(function(paramElement){
 				if (paramElement === value){bool=true}
 			})
-			// for (var i=0; i<element[parameter].length; i++){
-			// 	if (element[parameter][i] === value){
-			// 		return true;
-			// 	}
-			// }
-		// return false;
 		}
 		return bool;
 	})
 	return newArray;
 }
 
+function filterArrayLength(array, parameter, testLength){
+	var newArray = array.filter(function(element){
+		return (element[parameter].length >= testLength);
+	})
+	return newArray;
+}
 
 
 
@@ -88,23 +86,24 @@ console.log("Avg Price is " + priceAvg);
 
 // Problem 2
 rangeItems = items.filter(priceRange);
-rangeItemsTitles = paramArray(rangeItems, "title")
-console.log("Items in with prices between 14 and 18 are ");
-console.log(rangeItemsTitles);
+console.log("Items with prices between 14 and 18 are ");
+printOut(rangeItems, "title");
 
 // Problem 3
-
-console.log("Items with currency code 'GBP' are ")
-var curObject = filterArrayValue(items, "currency_code", "GBP");
-console.log(curObject);
+console.log("Items with currency code 'GBP' are ");
+var curArray = filterArrayValue(items, "currency_code", "GBP");
+printOut(curArray, ["title", "price"]);
 
 // Problem 4
 var matArray = filterArrayValue(items, "materials", "wood");
-
 console.log("The wood array is ");
-console.log(paramArray(matArray, "title"));
+printOut(matArray, ["title", "price", "materials"]);
 
 // Problem 5
+lengthArray = filterArrayLength(items, "materials", 8);
+console.log("Items with 8 or more materials ");
+printOut(lengthArray, "title");
 
-
-
+// Problem 6
+var sameMade = filterArrayValue(items, "who_made", "i_did");
+console.log(sameMade.length);
