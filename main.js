@@ -160,7 +160,7 @@ var sameMade = filterArrayValue(items, "who_made", "i_did");
 //--------------------------------------------
 
 writeHTML(null, null, "The average price is $" + priceAvg, null, P1);
-writeHTML(rangeTitles, "title", "", null, P2);
+writeHTML(rangeItems, "title", "", null, P2);
 writeHTML(curArray, "title", " costs $", "price", P3);
 writeHTML(matArray, "title", " is made of wood", null, P4);
 writeHTML(lengthArray, "title", " has ", "materials", P5);
